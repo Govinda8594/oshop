@@ -1,0 +1,80 @@
+<p>
+  <a routerLink="/admin/products/new" class="btn btn-primary">New Product</a>
+</p>
+<p>
+  <input
+    #query
+    type="text"
+    class="form-control"
+    (change)="filter(query.value)"
+    placeholder="Search..."
+  />
+</p>
+<!-- <data-table
+  [items]="items"
+  [itemCount]="itemCount"
+  (reload)="reloadItem($event)"
+>
+  <data-table-column
+    [property]="title"
+    [header]="Title"
+    [sortable]="true"
+    [resizeable]="true"
+  >
+  </data-table-column>
+  <data-table-column
+    [property]="price"
+    [header]="Price"
+    [sortable]="true"
+    [resizeable]="true"
+  >
+    <ng-template #dataTableCell let-item="item">
+      {{ p.payload.price | currency: "INR":true }}
+    </ng-template>
+  </data-table-column>
+  <data-table-column [property]="item.key">
+    <ng-template #dataTableCell let-item="item">
+      <a [routerLink]="['/admin/products/', item.key]">Edit</a>
+    </ng-template>
+  </data-table-column>
+</data-table> -->
+
+<table
+  class="table"
+  [svData]="filteredProduct"
+  #sv="svDataTable"
+  [svRowsOnPage]="5"
+  svSortBy="filteredProduct.title"
+  svSortOrder="desc"
+>
+  <thead>
+    <tr>
+      <th>
+        <sv-default-sorter by="sv.data.title">Title</sv-default-sorter>
+      </th>
+      <th>
+        <sv-default-sorter by="sv.data.price">Price</sv-default-sorter>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of sv.data">
+      <td>{{ p.title }}</td>
+
+      <td>{{ p.price | currency: "INR":true }}</td>
+      <td>
+        <a [routerLink]="['/admin/products/', p.key]">Edit</a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <sv-bootstrap-paginator
+          [rowsOnPageSet]="[5, 10, 25]"
+        ></sv-bootstrap-paginator>
+      </td>
+    </tr>
+  </tfoot>
+</table>
